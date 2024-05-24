@@ -6,6 +6,11 @@ const productPostDB = async (productBody: TProduct) => {
   return result;
 };
 
-export const productService ={
-    productPostDB
-}
+const getAllProductsDB = async () => {
+  const result = await ProductModel.find();
+  return result;
+};
+export const productService = {
+  productPostDB,
+  getAllProductsDB,
+};
