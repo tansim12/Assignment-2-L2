@@ -8,8 +8,8 @@ import {
 
 const productPost = async (req: Request, res: Response) => {
   try {
-    console.log("hello");
-    const productBody = req.body.product;
+    
+    const productBody = req.body;
     const bodyParse = ProductSchemaZod.parse(productBody);
     const result = await productService.productPostDB(bodyParse);
     res
