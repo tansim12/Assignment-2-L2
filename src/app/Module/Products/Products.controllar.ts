@@ -21,7 +21,11 @@ const productPost = async (req: Request, res: Response) => {
 
 const allProductsGet = async (req: Request, res: Response) => {
   try {
-    const result = await productService.getAllProductsDB();
+    let searchValue = req.query.searchTerm as string;
+    if (searchValue) {
+      searchValue = searchValue.trim();
+    }
+    const result = await productService.getAllProductsDB(searchValue);
     res
       .status(200)
       .send(successResponse(result, "Products fetched successfully!"));
@@ -44,11 +48,8 @@ const oneProductsGet = async (req: Request, res: Response) => {
 };
 const updateOneProduct = async (req: Request, res: Response) => {
   try {
-    
-    
     const id = req.params.productId;
     const updateBody = req.body;
-    console.log({id}, {updateBody});
     const result = await productService.findIdAndUpdateDB(id, updateBody);
     res
       .status(200)
@@ -58,8 +59,21 @@ const updateOneProduct = async (req: Request, res: Response) => {
   }
 };
 
+const deleteOneProduct = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.productId;
+    const result = await productService.deleteOneProductsDB(id);
+    res
+      .status(200)
+      .send(successResponse(null, "Product deleted successfully!"));
+  } catch (error) {
+    res.status(500).send(errorResponse(error));
+  }
+};
 export const productController = {
   productPost,
   allProductsGet,
-  oneProductsGet,updateOneProduct
+  oneProductsGet,
+  updateOneProduct,
+  deleteOneProduct,
 };

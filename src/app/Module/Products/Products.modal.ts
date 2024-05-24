@@ -24,6 +24,10 @@ const ProductSchema = new Schema<TProduct>({
   inventory: { type: InventoryObjectSchema, required: true },
 });
 
+// creating index  name , description and category  text fields
+
+ProductSchema.index({ name: "text", category: "text" });
+
 const ProductModel = model<TProduct>("Product", ProductSchema);
 
 export default ProductModel;
