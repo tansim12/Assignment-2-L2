@@ -23,3 +23,7 @@ const ProductSchema = new Schema<TProduct>({
   variants: { type: [VariantsObjectSchema], required: true },
   inventory: { type: InventoryObjectSchema, required: true },
 });
+
+const ProductModel = model<TProduct>("Product", ProductSchema);
+
+export default ProductModel;
