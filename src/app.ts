@@ -2,12 +2,14 @@ import express, { Application, Request, Response } from "express";
 import globalErrorHandler from "../src/app/Error-Handle/globalErrorHandle";
 import normalMiddleware from "../src/app/middleware/normalMiddleware";
 import { productRouter } from "./app/Module/Products/Products.route";
+import { OrdersRoute } from "./app/Module/Orders/Orders.route";
 
 const app: Application = express();
 normalMiddleware(app);
 
 
 app.use("/api",productRouter)
+app.use("/api",OrdersRoute)
 
 
 
