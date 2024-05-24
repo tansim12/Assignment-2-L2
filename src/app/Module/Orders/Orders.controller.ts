@@ -5,11 +5,14 @@ import {
   successResponse,
 } from "../../Reuseable function/CustomResponse";
 import { ordersService } from "./Orders.service";
-const postOrder = async (req: Request, res: Response) => {
+const postOrder = async (req: Request, res: Response, next: Function) => {
   try {
     const orderBody = req.body;
     const parseBodyZod = ordersSchemaZod.parse(orderBody);
-    const result = await ordersService.postOrdersDB(parseBodyZod);
+    const result: any = await ordersService.postOrdersDB(parseBodyZod);
+    if (result.success === false) {
+      return res.status(202).send(result);
+    }
     res
       .status(200)
       .send(successResponse(result, "Order created successfully!"));

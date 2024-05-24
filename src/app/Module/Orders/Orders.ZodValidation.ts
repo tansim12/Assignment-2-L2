@@ -12,4 +12,3 @@ const ordersSchemaZod = z.object({
 });
 
 export default ordersSchemaZod;
-
