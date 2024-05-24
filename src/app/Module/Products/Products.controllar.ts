@@ -8,7 +8,6 @@ import {
 
 const productPost = async (req: Request, res: Response) => {
   try {
-    
     const productBody = req.body;
     const bodyParse = ProductSchemaZod.parse(productBody);
     const result = await productService.productPostDB(bodyParse);
@@ -31,7 +30,21 @@ const allProductsGet = async (req: Request, res: Response) => {
   }
 };
 
+const oneProductsGet = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.productId;
+
+    const result = await productService.getOneProductsDB(id);
+    res
+      .status(200)
+      .send(successResponse(result, "Products fetched successfully!"));
+  } catch (error) {
+    res.status(500).send(errorResponse(error));
+  }
+};
+
 export const productController = {
   productPost,
   allProductsGet,
+  oneProductsGet,
 };
