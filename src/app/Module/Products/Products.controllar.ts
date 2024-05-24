@@ -42,9 +42,24 @@ const oneProductsGet = async (req: Request, res: Response) => {
     res.status(500).send(errorResponse(error));
   }
 };
+const updateOneProduct = async (req: Request, res: Response) => {
+  try {
+    
+    
+    const id = req.params.productId;
+    const updateBody = req.body;
+    console.log({id}, {updateBody});
+    const result = await productService.findIdAndUpdateDB(id, updateBody);
+    res
+      .status(200)
+      .send(successResponse(result, "Products fetched successfully!"));
+  } catch (error) {
+    res.status(500).send(errorResponse(error));
+  }
+};
 
 export const productController = {
   productPost,
   allProductsGet,
-  oneProductsGet,
+  oneProductsGet,updateOneProduct
 };
