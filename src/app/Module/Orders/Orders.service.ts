@@ -15,12 +15,8 @@ const postOrdersDB = async (orderBody: TOrdersInfo) => {
     return result;
   }
 
-  // when real product quantity is 0 then update stock out and isStock = false 
-  if (isExistData?.inventory.quantity === 0) {
-   await ProductModel.updateOne(
-      { _id: orderBody.productId },
-      { "inventory.inStock": false }
-    );
+  // when real product quantity is 0 then update stock out and isStock = false
+  if (isExistData?.inventory.quantity === 0 && isExistData?.inventory.inStock === false) {
 
     const result = {
       success: false,
@@ -42,6 +38,12 @@ const postOrdersDB = async (orderBody: TOrdersInfo) => {
 
     if (updateQuantity.modifiedCount > 0) {
       const result = await ordersModel.create(orderBody);
+      if (calc === 0) {
+        await ProductModel.updateOne(
+          { _id: orderBody.productId },
+          { "inventory.inStock": false }
+        );
+      }
       return result;
     }
   } else {
@@ -53,6 +55,19 @@ const postOrdersDB = async (orderBody: TOrdersInfo) => {
   }
 };
 
+const allOrdersDB = async (email: string) => {
+  console.log(email);
+
+  if (email) {
+    const result = await ordersModel.aggregate([{ $match: { email: email } }]);
+    return result;
+  } else {
+    const result = await ordersModel.find();
+    return result;
+  }
+};
+
 export const ordersService = {
   postOrdersDB,
+  allOrdersDB,
 };

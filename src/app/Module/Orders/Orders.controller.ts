@@ -21,6 +21,22 @@ const postOrder = async (req: Request, res: Response, next: Function) => {
   }
 };
 
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    let email = req.query.email as string
+    if (email) {
+      email = email.trim() as string
+    }
+    const result = await ordersService.allOrdersDB(email);
+    res
+      .status(200)
+      .send(successResponse(result, "Orders fetched successfully!"));
+  } catch (error) {
+    res.status(500).send(errorResponse(error));
+  }
+};
+
 export const ordersController = {
   postOrder,
+  getAllOrders,
 };
