@@ -1,5 +1,4 @@
-import { Schema, model } from "mongoose";
-import { TOrdersInfo } from "./Orders.interface";
+
 import { z } from "zod";
 const ordersSchemaZod = z.object({
   email: z

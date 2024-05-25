@@ -5,7 +5,7 @@ import {
   successResponse,
 } from "../../Reuseable function/CustomResponse";
 import { ordersService } from "./Orders.service";
-const postOrder = async (req: Request, res: Response, next: Function) => {
+const postOrder = async (req: Request, res: Response, ) => {
   try {
     const orderBody = req.body;
     const parseBodyZod = ordersSchemaZod.parse(orderBody);
@@ -23,11 +23,14 @@ const postOrder = async (req: Request, res: Response, next: Function) => {
 
 const getAllOrders = async (req: Request, res: Response) => {
   try {
-    let email = req.query.email as string
+    let email = req.query.email as string;
     if (email) {
-      email = email.trim() as string
+      email = email.trim() as string;
     }
-    const result = await ordersService.allOrdersDB(email);
+    const result: any = await ordersService.allOrdersDB(email);
+    if (result.success === false) {
+      return res.status(202).send(result);
+    }
     res
       .status(200)
       .send(successResponse(result, "Orders fetched successfully!"));

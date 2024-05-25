@@ -58,11 +58,17 @@ const postOrdersDB = async (orderBody: TOrdersInfo) => {
 };
 
 const allOrdersDB = async (email: string) => {
-  console.log(email);
-
   if (email) {
-    const result = await ordersModel.aggregate([{ $match: { email: email } }]);
-    return result;
+    const result = await ordersModel.aggregate([{ $match: { email: email } }]);   
+
+    if (!result.length) {
+      return {
+        success: false,
+        message: "Order not found",
+      };
+    } else {
+      return result;
+    }
   } else {
     const result = await ordersModel.find();
     return result;

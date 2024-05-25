@@ -38,7 +38,10 @@ const oneProductsGet = async (req: Request, res: Response) => {
   try {
     const id = req.params.productId;
 
-    const result = await productService.getOneProductsDB(id);
+    const result: any = await productService.getOneProductsDB(id);
+    if (result.success === false) {
+      return res.status(202).send(result);
+    }
     res
       .status(200)
       .send(successResponse(result, "Products fetched successfully!"));
@@ -62,7 +65,10 @@ const updateOneProduct = async (req: Request, res: Response) => {
 const deleteOneProduct = async (req: Request, res: Response) => {
   try {
     const id = req.params.productId;
-    const result = await productService.deleteOneProductsDB(id);
+    const result: any = await productService.deleteOneProductsDB(id);
+    if (result.success === false) {
+      return res.status(202).send(result);
+    }
     res
       .status(200)
       .send(successResponse(null, "Product deleted successfully!"));

@@ -23,6 +23,13 @@ const getAllProductsDB = async (searchValue: string) => {
 };
 const getOneProductsDB = async (id: string) => {
   const result = await ProductModel.findOne({ _id: id });
+
+  if (!result) {
+    return {
+      success: false,
+      message: "Product not found",
+    };
+  }
   return result;
 };
 const findIdAndUpdateDB = async (id: string, productBody: TProduct) => {
@@ -36,6 +43,13 @@ const findIdAndUpdateDB = async (id: string, productBody: TProduct) => {
 
 const deleteOneProductsDB = async (id: string) => {
   const result = await ProductModel.findOneAndDelete({ _id: id });
+  if (!result) {
+    return {
+      success: false,
+      message: "This Products not available !",
+    };
+  }
+
   return result;
 };
 
