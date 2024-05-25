@@ -16,11 +16,13 @@ const postOrdersDB = async (orderBody: TOrdersInfo) => {
   }
 
   // when real product quantity is 0 then update stock out and isStock = false
-  if (isExistData?.inventory.quantity === 0 && isExistData?.inventory.inStock === false) {
-
+  if (
+    isExistData?.inventory.quantity === 0 &&
+    isExistData?.inventory.inStock === false
+  ) {
     const result = {
       success: false,
-      message: `You can't order. Stock Out`,
+      message: `Insufficient quantity available in inventory`,
     };
     return result;
   }
